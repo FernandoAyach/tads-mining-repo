@@ -34,30 +34,13 @@ npm install
 
 ## Como Usar
 
-1. **Arquivo de Dados**: Certifique-se de que você tenha um arquivo JSON chamado `users-data.json` na mesma pasta que o script. O arquivo deve conter os dados dos usuários no seguinte formato:
-
-```json
-[
-  {
-    "followers_count": 100,
-    "following_count": 150,
-    "created_at": "2019-01-01T00:00:00Z"
-  },
-  {
-    "followers_count": 200,
-    "following_count": 250,
-    "created_at": "2020-01-01T00:00:00Z"
-  }
-]
-```
-
-2. **Executar o Script**: Para rodar o script e gerar as métricas, execute o seguinte comando no terminal:
+1. **Executar o Script**: Para rodar o script e gerar as métricas, execute o seguinte comando no terminal:
 
 ```bash
 npm run start
 ```
 
-3. **Resultado**: As métricas calculadas serão exibidas no terminal no formato CSV:
+2. **Resultado**: As métricas calculadas serão exibidas no terminal no formato CSV:
 
 ```csv
 Metric, Min, Max, Avg, Median, Std
@@ -91,15 +74,3 @@ Following Count, 20.00, 300.00, 160.00, 160.00, 80.00
 Account Age (years), 1.00, 5.00, 2.50, 2.50, 1.00
 Métricas extraídas com sucesso!
 ```
-
-## Contribuições
-
-Se você quiser contribuir para este projeto, por favor, crie uma issue ou um pull request para melhorias ou correções de bugs.
-
-## Licença
-
-Este projeto é licenciado sob a licença ISC. Veja o arquivo LICENSE para mais detalhes.
-
----
-
-Esse README fornece todas as informações necessárias para rodar o script e entender como ele calcula e exibe as métricas dos usuários no formato CSV.
