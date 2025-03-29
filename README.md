@@ -30,7 +30,6 @@ Para rodar este script, você precisará do **Node.js** e do **TypeScript** inst
 
 - **fs** (para leitura de arquivos)
 - **path** (para manipulação de caminhos de arquivos)
-- **calculate_functions** (arquivo de funções de cálculo de métricas)
 
 Para instalar as dependências do projeto, execute o comando:
 
