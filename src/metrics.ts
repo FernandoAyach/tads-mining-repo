@@ -1,6 +1,5 @@
-import fs from "fs";
-import path from "path";
 import { avg, max, median, min, std } from "./calculate_functions";
+import { extractUserData } from "./extract_user_data";
 
 interface Metrics {
   min: number;
@@ -8,14 +7,6 @@ interface Metrics {
   avg: number;
   median: number;
   std: number;
-}
-
-function extractUserData() {
-  const filePath = path.join(__dirname, "users-data.json");
-  const rawData = fs.readFileSync(filePath, "utf-8");
-  const jsonData = JSON.parse(rawData);
-
-  return jsonData;
 }
 
 function calculateMetrics(list: number[]): Metrics {

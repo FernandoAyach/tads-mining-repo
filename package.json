@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "index.ts",
   "scripts": {
-    "start": "ts-node ./src/index.ts",
+    "metrics": "ts-node ./src/metrics.ts",
+    "locations": "ts-node ./src/locations.ts",
     "test": "jest",
     "test-coverage": "npm test -- --coverage"
   },
