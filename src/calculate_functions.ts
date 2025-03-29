@@ -1,14 +1,14 @@
-export function min(list: number[]) {
+export function min(list: number[]): number {
   if (list.length == 0) return NaN;
   return Math.min(...list);
 }
 
-export function max(list: number[]) {
+export function max(list: number[]): number {
   if (list.length == 0) return NaN;
   return Math.max(...list);
 }
 
-export function avg(list: number[]) {
+export function avg(list: number[]): number {
   const sum = list.reduce((sum: number, value: number) => sum + value, 0);
   return sum / list.length;
 }
@@ -26,7 +26,7 @@ export function median(list: number[]): number {
   return sorted[mid];
 }
 
-export function std(list: number[]) {
+export function std(list: number[]): number {
   if (list.length === 0) return NaN;
 
   const listAvg = avg(list);
