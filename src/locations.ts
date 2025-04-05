@@ -21,8 +21,6 @@ function extractLocationsAndFrequencies(usersJson: any[]) {
     const lowerCaseLocations = cleanedLocations.map((location: string) =>
       location.toLowerCase()
     );
-    console.log("Nome da localização, Quantidade de ocorrências");
-
     const locationFrequencies = lowerCaseLocations.map((location) => {
       const frequency = calculateLocationFrequency(location, lowerCaseLocations);
       return { location: location, frequency: frequency };
@@ -32,14 +30,9 @@ function extractLocationsAndFrequencies(usersJson: any[]) {
       (a, b) => b.frequency - a.frequency
     );
 
-    sortedLocationFrequencies.forEach(({ location, frequency }) => {
-      console.log(location, ", ", frequency);
-    });
-
     return sortedLocationFrequencies;
   } catch (error) {
-    console.error("Erro ao extrair locais e frequências:", error);
-    return [];
+    throw Error(`Erro ao extrair localizações e frequências:${error}`)
   }
 }
 

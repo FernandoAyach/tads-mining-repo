@@ -1,12 +1,34 @@
 import { avg, max, median, min, std } from "./calculate_functions";
 import { extractUserData } from "./extract_user_data";
+import { Metrics, MetricsBundle } from "./interfaces";
 
-interface Metrics {
-  min: number;
-  max: number;
-  avg: number;
-  median: number;
-  std: number;
+const usersJson = extractUserData();
+const metricsBundle = extractMetrics(usersJson);
+
+console.log("Metric, Min, Max, Avg, Median, Std");
+console.log(formatCSVLine("Followers Count", metricsBundle.followersCount));
+console.log(formatCSVLine("Following Count", metricsBundle.followingCount));
+console.log(formatCSVLine("Account Age (years)", metricsBundle.acountAge));
+
+function extractMetrics(usersJson: any[]): MetricsBundle {
+  const followersCountList = usersJson.map((user) => user.followers_count);
+  const followingCountList = usersJson.map((user) => user.following_count);
+
+  const accountAgeInYearsList = usersJson.map((user) => {
+    const createdAt = new Date(user.created_at);
+    const ageInMs = Date.now() - createdAt.getTime();
+    return ageInMs / (1000 * 60 * 60 * 24 * 365);
+  });
+
+  const followersCountMetrics = calculateMetrics(followersCountList);
+  const followingCountMetrics = calculateMetrics(followingCountList);
+  const accountAgeMetrics = calculateMetrics(accountAgeInYearsList);
+
+  return {
+    followersCount: followersCountMetrics,
+    followingCount: followingCountMetrics,
+    acountAge: accountAgeMetrics,
+  };
 }
 
 function calculateMetrics(list: number[]): Metrics {
@@ -25,36 +47,4 @@ function formatCSVLine(title: string, metrics: Metrics): string {
   )}, ${metrics.avg.toFixed(2)}, ${metrics.median.toFixed(
     2
   )}, ${metrics.std.toFixed(2)}`;
-}
-
-function extractMetrics(usersJson: any[]): boolean {
-  try {
-    const followersCountList = usersJson.map((user) => user.followers_count);
-    const followingCountList = usersJson.map((user) => user.following_count);
-
-    const accountAgeInYearsList = usersJson.map((user) => {
-      const createdAt = new Date(user.created_at);
-      const ageInMs = Date.now() - createdAt.getTime();
-      return ageInMs / (1000 * 60 * 60 * 24 * 365);
-    });
-
-    const followersCountMetrics = calculateMetrics(followersCountList);
-    const followingCountMetrics = calculateMetrics(followingCountList);
-    const accountAgeMetrics = calculateMetrics(accountAgeInYearsList);
-
-    console.log("Metric, Min, Max, Avg, Median, Std");
-    console.log(formatCSVLine("Followers Count", followersCountMetrics));
-    console.log(formatCSVLine("Following Count", followingCountMetrics));
-    console.log(formatCSVLine("Account Age (years)", accountAgeMetrics));
-    return true;
-  } catch (error) {
-    return false;
-  }
-}
-
-const usersJson = extractUserData();
-if (extractMetrics(usersJson)) {
-  console.log("Métricas extraídas com sucesso!");
-} else {
-  console.log("Falha ao extrair métricas.");
 }
