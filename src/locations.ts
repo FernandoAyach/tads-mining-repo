@@ -1,41 +1,39 @@
 import { extractUserData } from "./extract_user_data";
+import { LocationAndFrequency } from "./interfaces";
 
-function calculateLocationFrequency(
-  targetLocation: string,
-  locations: string[]
-): number {
-  return locations.reduce((frequency, location) => {
-    if (location === targetLocation) {
-      return frequency + 1;
-    }
-    return frequency;
-  }, 0);
-}
+const usersJson = extractUserData();
+const locationsAndFrequencies = extractLocationsAndFrequencies(usersJson);
 
-function extractLocationsAndFrequencies(usersJson: any[]) {
+console.log("Localização, Quantidade de ocorrências");
+const outputLines = locationsAndFrequencies.map(
+  ({ location, frequency }) => `${location}, ${frequency}`
+);
+outputLines.forEach(line => console.log(line));
+
+function extractLocationsAndFrequencies(
+  usersJson: any[]
+): LocationAndFrequency[] {
   try {
-    const locations = usersJson.map((user) => user.location);
-    const cleanedLocations = locations.filter(
-      (location) => location != undefined
+    const frequencies = usersJson.reduce(
+      (locationWithFrequency: Record<string, number>, user) => {
+        const location = user.location?.toLowerCase();
+        if (location) {
+          locationWithFrequency[location] =
+            (locationWithFrequency[location] || 0) + 1;
+        }
+        return locationWithFrequency;
+      },
+      {}
     );
-    const lowerCaseLocations = cleanedLocations.map((location: string) =>
-      location.toLowerCase()
-    );
-    const locationFrequencies = lowerCaseLocations.map((location) => {
-      const frequency = calculateLocationFrequency(location, lowerCaseLocations);
-      return { location: location, frequency: frequency };
-    });
 
-    const sortedLocationFrequencies = locationFrequencies.sort(
-      (a, b) => b.frequency - a.frequency
-    );
+    const sortedLocationFrequencies: LocationAndFrequency[] = Object.entries(
+      frequencies
+    )
+      .map(([location, frequency]) => ({ location, frequency }))
+      .sort((a, b) => b.frequency - a.frequency);
 
     return sortedLocationFrequencies;
   } catch (error) {
-    throw Error(`Erro ao extrair localizações e frequências:${error}`)
+    throw Error(`Erro ao extrair localizações e frequências: ${error}`);
   }
 }
-
-console.log("----Bônus----");
-const usersJson = extractUserData();
-extractLocationsAndFrequencies(usersJson);

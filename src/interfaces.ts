@@ -11,3 +11,8 @@ export interface MetricsBundle {
   followingCount: Metrics;
   acountAge: Metrics;
 }
+
+export interface LocationAndFrequency {
+  location: string;
+  frequency: number;
+}
